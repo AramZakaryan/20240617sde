@@ -1,0 +1,5 @@
+# Project exclude paths
+/public2/tracker.js
+/repository/db.js
+/repository/logsRepository.js
+/index.js
