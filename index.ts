@@ -1,9 +1,10 @@
 import {Request, Response} from "express";
-import {Log, runDb} from "./repository/db";
-import {logsRepository} from "./repository/logsRepository";
-import cors from 'cors'
+import {Track, runDb} from "./repository/db";
+import {tracksRepository} from "./repository/tracksRepository"
 
-const express = require('express')
+import cors from 'cors';
+
+import express from 'express'
 
 
 const app1 = express()
@@ -35,7 +36,7 @@ app2.use(express.static('public2', {extensions: ['js']}))
 
 app2.post('/track', (req: Request, res: Response) => {
 
-    logsRepository.createLog(req.body)
+    tracksRepository.createTracks(req.body)
 
 
 })
