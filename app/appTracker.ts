@@ -21,7 +21,9 @@ app.use(express.static("publicTracker", { extensions: ["js"] }));
 // Parsing of track receiving as value of URLSearchParams
 app.use(express.urlencoded());
 app.use((req, _, next) => {
-  req.body = JSON.parse(req.body.payload);
+  if (req.body.payload) {
+    req.body = JSON.parse(req.body.payload);
+  }
   next();
 });
 
