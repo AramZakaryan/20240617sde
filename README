@@ -1,9 +1,11 @@
 STARTING THE PROJECT
 
-to install packages:
+Yarn is used as package manager.
+
+To install packages:
     yarn install
 
-then, to start the project:
+Then, to start the project:
     yarn watch
     yarn dev
 
@@ -29,5 +31,5 @@ URLSearchParams value.
 The realization of the project took two days.
 
 
-THANK YOU FOR THIS OPPORTUNITY,
-I WILL APPRECIATE FOR ANY FEEDBACK.
+THANK YOU FOR THIS OPPORTUNITY
+I WILL APPRECIATE ANY FEEDBACK
