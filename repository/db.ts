@@ -1,24 +1,23 @@
 import { MongoClient } from "mongodb";
 
-const mongoUri = process.env.MONGO_URI || "mongodb://0.0.0.0:27017";
+const mongoUri: string = "mongodb://0.0.0.0:27017";
 const client = new MongoClient(mongoUri);
 
-const db = client.db("userAnalytics");
+const db = client.db("tracker");
 
-export const logsCollection = db.collection<Track>("tracks");
+export const tracksCollection = db.collection<Track>("tracks");
 
 export async function runDb() {
   try {
     await client.connect();
-    await client.db("userAnalytics").command({ ping: 1 });
-    console.log("Successful connection to MongoDB userAnalytics");
+    await client.db("tracker").command({ ping: 1 });
+    console.log("connected to MongoDB tracker");
   } catch {
-    console.log("Cannot connect to MongoDB userAnalytics");
+    console.log("cannot connect to MongoDB tracker");
     await client.close();
   }
 }
 
-// Types
 export type Track = {
   event: string;
   tags: string[];

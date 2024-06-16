@@ -1,5 +1,5 @@
-import { startAppApiJs } from "./app/appApiJs";
-import { startAppHtml } from "./app/appHtml";
+import { startAppTracker } from "./app/appTracker";
+import { startAppPages } from "./app/appPages";
 
-startAppHtml();
-startAppApiJs();
+startAppPages();
+startAppTracker();
