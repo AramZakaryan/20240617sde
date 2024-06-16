@@ -20,4 +20,14 @@ Snippet was added on 3.html. Usually they provide
 self-contained, robust, and extensible solution
 for integrating a tracking functionality into webpage.
 
-The realization took two not full days.
+To avoid preflight OPTIONS request, tracks are send
+from client as URLSearchParams value and are parsed
+by two middlewares, the first is express.urlencoded,
+the second is custom middleware for parsing
+URLSearchParams value.
+
+The realization of the project took two days.
+
+
+THANK YOU FOR THIS OPPORTUNITY,
+I WILL APPRECIATE FOR ANY FEEDBACK.

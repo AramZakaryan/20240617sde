@@ -36,10 +36,16 @@ async function sendTracks() {
   tracksBuffer = [];
 
   try {
+    // transformation of tracks to URLSearchParams value for
+    // using "Content-Type":"application/x-www-form-urlencoded"
+    // this is necessary to avoid preflight OPTIONS request
+    const data = new URLSearchParams();
+    data.append("payload", JSON.stringify(tracks));
+
     await fetch(ENDPOINT, {
       method: "POST",
-      body: JSON.stringify(tracks),
-      headers: { "Content-Type": "application/json" },
+      body: data,
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
       keepalive: true,
     });
     lastSendTime = Date.now();

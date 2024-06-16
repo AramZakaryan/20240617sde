@@ -1,8 +1,8 @@
 import express, { Request, Response } from "express";
 import { runDb } from "../repository/db";
+import cors from "cors";
 import { body, validationResult } from "express-validator";
 import { repository } from "../repository/repository";
-import cors from "cors";
 
 const port = 8888;
 
@@ -10,15 +10,20 @@ const app = express();
 app.use(
   cors({
     origin: ["http://localhost:50000"],
-    methods: "*",
-    allowedHeaders: "*",
+    methods: ["POST"],
+    allowedHeaders: ["Content-Type"],
     preflightContinue: false,
     optionsSuccessStatus: 204,
   }),
 );
-app.use(express.json());
-
 app.use(express.static("publicTracker", { extensions: ["js"] }));
+
+// Parsing of track receiving as value of URLSearchParams
+app.use(express.urlencoded());
+app.use((req, _, next) => {
+  req.body = JSON.parse(req.body.payload);
+  next();
+});
 
 const tracksValidationRules = [
   body().isArray(), // tracks must be an array
@@ -35,14 +40,12 @@ app.post("/track", tracksValidationRules, (req: Request, res: Response) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     res.sendStatus(422);
+  } else {
+    repository
+      .createTracks(req.body)
+      .then((result) => !result && console.log("❌  tracks are NOT created"));
+    res.sendStatus(200);
   }
-  repository
-    .createTracks(req.body)
-    .then((result) => !result && console.log("❌  tracks are NOT created"));
-  // res.sendStatus(200);
-  res
-    .status(200)
-    .json({ success: true, message: "Tracks created successfully" });
 });
 
 export const startAppTracker = async () => {
