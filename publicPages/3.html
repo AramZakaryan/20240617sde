@@ -1,7 +1,67 @@
 <html>
 <head>
   <title>My website</title>
-  <script src="http://localhost:8888/tracker"></script>
+  <!--  <script src="http://localhost:8888/tracker"></script>-->
+  <script>
+    (function() {
+      const ENDPOINT = "http://localhost:8888/track";
+      const MIN_TRACKS_TO_SEND = 3;
+      const SEND_INTERVAL_MS = 1000;
+      const REQUEUE_INTERVAL_MS = 1000;
+
+      let tracksBuffer = [];
+      let lastSendTime = 0;
+
+      const tracker = {
+        track(event, ...tags) {
+          const track = {
+            event,
+            tags,
+            url: window.location.href,
+            title: document.title,
+            ts: Math.round(new Date().getTime() / 1000.0)
+          };
+
+          tracksBuffer.push(track);
+
+          if (shouldSendTracks()) sendTracks();
+        }
+      };
+
+      function shouldSendTracks() {
+        return (
+          tracksBuffer.length >= MIN_TRACKS_TO_SEND ||
+          Date.now() - lastSendTime >= SEND_INTERVAL_MS
+        );
+      }
+
+      async function sendTracks() {
+        const tracks = tracksBuffer;
+        tracksBuffer = [];
+
+        try {
+          await fetch(ENDPOINT, {
+            method: "POST",
+            body: JSON.stringify(tracks),
+            headers: { "Content-Type": "application/json" },
+            keepalive: true
+          });
+          lastSendTime = Date.now();
+        } catch (error) {
+          setTimeout(() => {
+            tracksBuffer.push(...tracks);
+          }, REQUEUE_INTERVAL_MS);
+        }
+      }
+
+      window.addEventListener("beforeunload", async () => {
+        if (tracksBuffer.length === 0) return;
+        await sendTracks();
+      });
+
+      window.tracker = tracker;
+    })();
+  </script>
   <script>
     tracker.track("pageview");
     tracker.track("test", "one", "two", "three");

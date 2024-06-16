@@ -39,7 +39,7 @@ async function sendTracks() {
     await fetch(ENDPOINT, {
       method: "POST",
       body: JSON.stringify(tracks),
-      headers: { "content-type": "application/json" },
+      headers: { "Content-Type": "application/json" },
       keepalive: true,
     });
     lastSendTime = Date.now();

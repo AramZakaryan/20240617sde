@@ -1,20 +1,22 @@
 import express, { Request, Response } from "express";
-import cors from "cors";
 import { runDb } from "../repository/db";
 import { body, validationResult } from "express-validator";
 import { repository } from "../repository/repository";
+import cors from "cors";
 
 const port = 8888;
 
 const app = express();
-app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:50000",
-    methods: ["POST"],
-    allowedHeaders: ["Content-Type"],
+    origin: ["http://localhost:50000"],
+    methods: "*",
+    allowedHeaders: "*",
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
   }),
 );
+app.use(express.json());
 
 app.use(express.static("publicTracker", { extensions: ["js"] }));
 
@@ -37,7 +39,10 @@ app.post("/track", tracksValidationRules, (req: Request, res: Response) => {
   repository
     .createTracks(req.body)
     .then((result) => !result && console.log("❌  tracks are NOT created"));
-  res.sendStatus(200);
+  // res.sendStatus(200);
+  res
+    .status(200)
+    .json({ success: true, message: "Tracks created successfully" });
 });
 
 export const startAppTracker = async () => {

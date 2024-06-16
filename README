@@ -8,19 +8,16 @@ then, to start the project:
     yarn dev
 
 mongoUri (mongodb://0.0.0.0:27017)
-may be changed on ./repository/db.ts
+it may be changed on ./repository/db.ts
 
 
 ISSUES DURING THE REALIZATION OF THE PROJECT
 
-Initially, I started implementing a project that saved events
-to local storage. But later I decided to simplify the project
-and create trackBuffer as an Array to store tracks.
-Second, I was thinking to store the trackBuffer as a Set
-because that is an efficient way to store unique values.
-But Set would not be effective if we take into account that
-the "ts" property of a track is unix time, and two different
-events (if they happen quickly) can have the same "ts" and,
-as a consequence, the similar track.
+Beforeunload event lister is added with callback
+referred to fetch with keepalive.
+
+Snippet was added on 3.html. Usually they provide
+self-contained, robust, and extensible solution
+for integrating a tracking functionality into webpage.
 
 The realization took two not full days.
