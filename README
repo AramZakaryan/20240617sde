@@ -1,0 +1,26 @@
+STARTING THE PROJECT
+
+to install packages:
+    yarn install
+
+then, to start the project:
+    yarn watch
+    yarn dev
+
+mongoUri (mongodb://0.0.0.0:27017)
+may be changed on ./repository/db.ts
+
+
+ISSUES DURING THE REALIZATION OF THE PROJECT
+
+Initially, I started implementing a project that saved events
+to local storage. But later I decided to simplify the project
+and create trackBuffer as an Array to store tracks.
+Second, I was thinking to store the trackBuffer as a Set
+because that is an efficient way to store unique values.
+But Set would not be effective if we take into account that
+the "ts" property of a track is unix time, and two different
+events (if they happen quickly) can have the same "ts" and,
+as a consequence, the similar track.
+
+The realization took two not full days.

@@ -3,7 +3,6 @@ import cors from "cors";
 import { runDb } from "../repository/db";
 import { body, validationResult } from "express-validator";
 import { repository } from "../repository/repository";
-import { log } from "node:util";
 
 const port = 8888;
 
@@ -37,7 +36,7 @@ app.post("/track", tracksValidationRules, (req: Request, res: Response) => {
   }
   repository
     .createTracks(req.body)
-    .then((result) => !result && console.log("❌ tracks are not created"));
+    .then((result) => !result && console.log("❌  tracks are NOT created"));
   res.sendStatus(200);
 });
 
