@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
-import { tracksRepository } from "./repository/tracksRepository";
-import { runDb } from "./repository/db";
+import { tracksRepository } from "../repository/tracksRepository";
+import { runDb } from "../repository/db";
 
 const app = express();
 app.use(express.json());
@@ -14,16 +14,22 @@ app.use(
   }),
 );
 
-app.use(express.static("publicLogic", { extensions: ["js"] }));
+app.use(express.static("publicJs", { extensions: ["js"] }));
 
 const port = 8888;
 
 app.post("/track", (req: Request, res: Response) => {
-  tracksRepository.createTracks(req.body);
+  console.log(req.body);
+  // tracksRepository.createTracks(req.body);
   res.sendStatus(200);
 });
 
-export const startAppLogic = async () => {
+app.post("/porc", (req: Request, res: Response) => {
+  console.log(req.body);
+  res.sendStatus(200);
+});
+
+export const startAppApiJs = async () => {
   await runDb();
   app.listen(port, async () => {
     console.log(`Listening port ${port}`);

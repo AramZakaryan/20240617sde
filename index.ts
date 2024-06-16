@@ -1,5 +1,5 @@
-import { startAppLogic } from "./appDynamic";
-import { startAppStatic } from "./appStatic";
+import { startAppApiJs } from "./app/appApiJs";
+import { startAppHtml } from "./app/appHtml";
 
-startAppStatic();
-startAppLogic();
+startAppHtml();
+startAppApiJs();
